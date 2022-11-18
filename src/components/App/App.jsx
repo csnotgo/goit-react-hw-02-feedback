@@ -12,7 +12,7 @@ export class App extends Component {
   };
 
   onLeaveFeedback = evt => {
-    const targetButton = evt.target.textContent.toLowerCase();
+    const targetButton = evt.target.textContent;
     this.setState(prevState => ({
       [targetButton]: prevState[targetButton] + 1,
     }));
@@ -34,15 +34,19 @@ export class App extends Component {
   }
 
   reset() {
-    this.setState(this.state);
+    this.setState({ good: 0, neutral: 0, bad: 0 });
   }
 
   render() {
     const { good, neutral, bad } = this.state;
+    const keys = Object.keys(this.state);
     return (
       <div>
         <Section title="Please leave feedback">
-          <FeedbackOptions onLeaveFeedback={this.onLeaveFeedback} />
+          <FeedbackOptions
+            options={keys}
+            onLeaveFeedback={this.onLeaveFeedback}
+          />
         </Section>
         {this.countTotalFeedback() === 0 ? (
           <Notification message="There is no feedback yet ¯\_(ツ)_/¯" />
